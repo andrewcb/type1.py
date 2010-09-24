@@ -1,0 +1,174 @@
+#!/usr/bin/env python
+
+# $Id
+
+# a simple test program for the Type 1 module.  This program generates
+# a simple (and useless) font, containing a few bitmapped letters, and 
+# writes it to the file 'test.pfa'.
+# At this stage this test program doesn't care about hinting or 
+# subroutine conventions.
+
+import string
+from type1 import Type1Font, csMake
+
+font = Type1Font('test')
+
+font.setBBox(0, -200, 600, 800)
+
+# draw a 100x100 box positioned at the cursor, moving up by 100
+font.setSubr(0,'100 hlineto 100 vlineto -100 hlineto closepath return')
+# move up by 100 pixels, without drawing anything
+font.setSubr(1,'0 100 rmoveto return')
+
+font.setSubr(3,'50 450 hsbw return')
+
+
+font.setCharacter('.notdef', '0 500 hsbw endchar')
+font.setCharacter('A', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('B', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('C', '''3 callsubr
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('D', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('E', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('F', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('G', '''3 callsubr
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('H', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('I', '''3 callsubr
+100 0 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('J', '''3 callsubr
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('K', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('L', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('M', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('N', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('O', '''3 callsubr
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('P', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('Q', '''3 callsubr
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('R', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('S', '''3 callsubr
+0 callsubr 1 callsubr 1 callsubr 0 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 0 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('T', '''3 callsubr
+100 0 rmoveto
+1 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 1 callsubr 1 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('U', '''3 callsubr
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 1 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('V', '''3 callsubr
+1 callsubr 1 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 1 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+font.setCharacter('W', '''3 callsubr
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+1 callsubr 0 callsubr 1 callsubr 1 callsubr 1 callsubr 100 -500 rmoveto
+0 callsubr 0 callsubr 0 callsubr 0 callsubr 0 callsubr 100 -500 rmoveto
+endchar''')
+
+# make the lower-case chars copies of the upper-case ones
+
+for i in string.uppercase:
+  if font.CharStrings.has_key(i):
+    font.copyCharacter(i, string.lower(i))
+
+# generate a PFA file representing this font object.
+pfa = font.generate()
+
+file = open("test.pfa", 'w')
+file.write(pfa)
+file.close()
